@@ -1,39 +1,23 @@
 package br.com.cedran.consumers.config.ff4j;
 
 import org.ff4j.FF4j;
-import org.ff4j.store.InMemoryFeatureStore;
 import org.ff4j.web.ApiConfig;
 import org.ff4j.web.FF4jDispatcherServlet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import br.com.cedran.consumers.gateways.ff4j.FF4JFilter;
+
 @Configuration
-public class FF4jConfiguration {
+public class FF4JWebConsoleConfiguration {
 
     private static final String DEFAULT_CONSOLE = "/ff4j-console/*";
 
-    // @Autowired
-    // private MongoDbFactory mongoFactory;
-
-    @Value("${ff4j.collection:ff4j-features}")
-    private String collection;
-
-    @Bean
-    public FF4j configureFF4j() {
-        final FF4j ff4j = new FF4j();
-        configureFeatureStoreMongoDB(ff4j);
-        return ff4j;
-    }
-
-    private void configureFeatureStoreMongoDB(FF4j ff4j) {
-        // final FeatureStoreMongoDB featureStoreMongoDB = new FeatureStoreMongoDB((MongoClient)
-        // mongoFactory.getDb().getMongo(), mongoFactory.getDb().getName(), collection);
-        final InMemoryFeatureStore featureStoreMongoDB = new InMemoryFeatureStore();
-        ff4j.setFeatureStore(featureStoreMongoDB);
-    }
+    @Autowired
+    private FF4JFilter filter;
 
     @Bean
     public ApiConfig getApiConfig(@Autowired final FF4j ff4j) {
@@ -51,6 +35,17 @@ public class FF4jConfiguration {
         FF4jDispatcherServlet ff4jDispatcherServlet = new FF4jDispatcherServlet();
         ff4jDispatcherServlet.setFf4j(ff4j);
         return ff4jDispatcherServlet;
+    }
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        final FilterRegistrationBean filterRegBean = new FilterRegistrationBean();
+        filterRegBean.setFilter(filter);
+        filterRegBean.addUrlPatterns("/ff4j-console/features");
+        filterRegBean.setEnabled(Boolean.TRUE);
+        filterRegBean.setName("FF4J Filter");
+        filterRegBean.setAsyncSupported(Boolean.TRUE);
+        return filterRegBean;
     }
 
 }

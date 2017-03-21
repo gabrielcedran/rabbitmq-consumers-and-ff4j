@@ -43,6 +43,7 @@
             <artifactId>lombok</artifactId>
             <version>1.16.14</version>
         </dependency>
+
         <dependency>
             <groupId>org.ff4j</groupId>
             <artifactId>ff4j-core</artifactId>
@@ -58,6 +59,13 @@
             <artifactId>ff4j-store-mongodb</artifactId>
             <version>1.6.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
     </dependencies>
 
 
