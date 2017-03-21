@@ -1,0 +1,13 @@
+#RabbitMQ
+rabbitmq:
+  image: rabbitmq:3.6.2-management
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+
+
+#MongoDB
+mongo:
+  image: mongo:3.4.2
+  ports:
+    - "27017:27017"
