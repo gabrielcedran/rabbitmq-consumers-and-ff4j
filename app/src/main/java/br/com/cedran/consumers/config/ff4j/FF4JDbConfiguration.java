@@ -1,18 +1,22 @@
 package br.com.cedran.consumers.config.ff4j;
 
 import org.ff4j.FF4j;
-import org.ff4j.store.InMemoryFeatureStore;
+import org.ff4j.store.FeatureStoreMongoDB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDbFactory;
+
+import com.mongodb.MongoClient;
 
 @Configuration
 public class FF4JDbConfiguration {
 
     private static final String DEFAULT_CONSOLE = "/ff4j-console/*";
 
-    // @Autowired
-    // private MongoDbFactory mongoFactory;
+    @Autowired
+    private MongoDbFactory mongoFactory;
 
     @Value("${ff4j.collection:ff4j-features}")
     private String collection;
@@ -25,9 +29,8 @@ public class FF4JDbConfiguration {
     }
 
     private void configureFeatureStoreMongoDB(FF4j ff4j) {
-        // final FeatureStoreMongoDB featureStoreMongoDB = new FeatureStoreMongoDB((MongoClient)
-        // mongoFactory.getDb().getMongo(), mongoFactory.getDb().getName(), collection);
-        final InMemoryFeatureStore featureStoreMongoDB = new InMemoryFeatureStore();
+        final FeatureStoreMongoDB featureStoreMongoDB = new FeatureStoreMongoDB((MongoClient) mongoFactory.getDb().getMongo(), mongoFactory.getDb().getName(), collection);
+        // final InMemoryFeatureStore featureStoreMongoDB = new InMemoryFeatureStore();
         ff4j.setFeatureStore(featureStoreMongoDB);
     }
 
