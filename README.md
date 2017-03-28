@@ -4,8 +4,8 @@ Nowadays, FF4J provides plant features but none of them enable you to turn on an
 This application purposes a implementation that enables and disables rabbit consumers through [FF4J](http://ff4j.org/) framework - Guaranteeing even distributed environments.
 
 Currently, the tasks foreseen are:
-[x] Setup environment with rabbit and ff4j
-[x] Intercept FF4J calls to enable and disable features
-[x] Enable and Disable consumers of the current instance according to FF4J features and queue names
-[ ] Replicate queue status to other instances of the application
-[ ] Create component easy to import in other projects
+- [x] Setup environment with rabbit and ff4j
+- [x] Intercept FF4J calls to enable and disable features
+- [x] Enable and Disable consumers of the current instance according to FF4J features and queue names
+- [ ] Replicate queue status to other instances of the application
+- [ ] Create component easy to import in other projects
